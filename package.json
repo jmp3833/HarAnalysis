@@ -1,10 +1,9 @@
 {
-  "name": "testapp",
+  "name": "HarAnalysis",
   "version": "0.0.1",
-  "main": "test.js",
-  "repository": "",
-  "author": "Sri",
-  "license": "BSD",
+  "main": "app.js",
+  "repository": "https://github.com/jmp3833/HarAnalysis.git",
+  "author": "Justin Peterson",
   "dependencies": {
     "yslow": "*",
     "jsdom": "*",
