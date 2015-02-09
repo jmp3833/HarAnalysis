@@ -1,0 +1,13 @@
+{
+  "name": "testapp",
+  "version": "0.0.1",
+  "main": "test.js",
+  "repository": "",
+  "author": "Sri",
+  "license": "BSD",
+  "dependencies": {
+    "yslow": "*",
+    "jsdom": "*",
+    "async": "*"
+  }
+}
