@@ -16,7 +16,11 @@ var commandLineArgs = require('../app');
 
 function grabFiles(){
   fs.readdir(commandLineArgs.analysisDir, function (err, list) {
-    evaluateHARSet(list);
+    async.map(list, function(file, cb){
+      return cb(null, commandLineArgs.analysisDir + file);
+    }, function(err,absPathList){
+      evaluateHARSet(absPathList);
+    });
   });
 }
 
@@ -72,7 +76,7 @@ var getYslowResponse = function (filename, doneCallback){
 }
 
 module.exports = {
-   grabFiles: grabFiles,
+   grabFiles : grabFiles,
    evaluateHARSet : evaluateHARSet,
    evaluateHar : evaluateHar
 }
