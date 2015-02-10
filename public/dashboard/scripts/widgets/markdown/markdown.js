@@ -37,9 +37,22 @@ angular.module('sample.widgets.markdown', ['adf.provider', 'btford.markdown'])
           reload: false
         }
       });
-  }).controller('markdownCtrl', function($scope, config){
+  }).controller('markdownCtrl', function($scope, config, $http){
     if (!config.content){
       config.content = '';
     }
-    $scope.config = config;
+
+    // Simple POST request example (passing data) :
+    $http.post('http://127.0.0.1:3000/api/readme', JSON.stringify("Hello world!")).
+    success(function(data, status, headers, config) {
+        // this callback will be called asynchronously
+        // when the response is available
+    }).
+    error(function(data, status, headers, config) {
+        // called asynchronously if an error occurs
+        // or server returns response with an error status.
+    });
+
+$scope.config = config;
   });
+

@@ -46,7 +46,7 @@
         }
       },
       sample: {
-        cwd: 'sample',
+        cwd: 'dashboard',
         src: ['scripts/widgets/*/*.html', 'partials/*.html'],
         dest: '.tmp/ngtemplates/sample.templates.js',
         options: {
@@ -148,19 +148,19 @@
     copy: {
       sample: {
         files: [{
-          src: 'sample/index.html',
+          src: 'dashboard/index.html',
           dest: 'dist/sample/index.html'
         },{
-          src: 'sample/components/angular/angular.min.js',
+          src: 'dashboard/components/angular/angular.min.js',
           dest: 'dist/sample/js/angular.min.js'
         },{
-          src: 'sample/components/angular-route/angular-route.min.js',
+          src: 'dashboard/components/angular-route/angular-route.min.js',
           dest: 'dist/sample/js/angular-route.min.js'
         },{
-          src: 'sample/components/jquery/jquery.min.js',
+          src: 'dashboard/components/jquery/jquery.min.js',
           dest: 'dist/sample/js/jquery.min.js'
         },{
-          src: 'sample/components/bootstrap/dist/fonts/*',
+          src: 'dashboard/components/bootstrap/dist/fonts/*',
           dest: 'dist/sample/fonts/',
           expand: true,
           flatten: true
@@ -168,7 +168,7 @@
       }
     },
     useminPrepare: {
-      html: 'sample/index.html',
+      html: 'dashboard/index.html',
       options: {
         dirs: ['dist/sample']
       }
@@ -208,10 +208,10 @@
           'src/**/*.js',
           'src/**/*.html',
           'src/**/*.css',
-          'sample/index.html',
-          'sample/scripts/**/*.js',
-          'sample/scripts/**/*.html',
-          'sample/scripts/**/*.css'
+          'dashboard/index.html',
+          'dashboard/scripts/**/*.js',
+          'dashboard/scripts/**/*.html',
+          'dashboard/scripts/**/*.css'
         ]
       },
       options: {
