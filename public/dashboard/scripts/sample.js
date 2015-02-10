@@ -36,7 +36,7 @@ angular.module('sample', [
 
   $routeProvider.when('/HarAnalysis', {
     templateUrl: 'partials/sample.html',
-    controller: 'sample01Ctrl'
+    controller: 'harCtrl'
   })
   .when('/sample/02', {
     templateUrl: 'partials/sample.html',
@@ -68,7 +68,7 @@ angular.module('sample', [
   });
 
   $scope.navClass = function(page) {
-    var currentRoute = $location.path().substring(1) || 'Sample 01';
+    var currentRoute = $location.path().substring(1) || 'Har Ctrl';
     return page === currentRoute || new RegExp(page).test(currentRoute) ? 'active' : '';
   };
 

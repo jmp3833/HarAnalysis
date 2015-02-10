@@ -24,14 +24,14 @@
 'use strict';
 
 angular.module('sample-01', ['adf', 'LocalStorageModule'])
-.controller('sample01Ctrl', function($scope, localStorageService){
+.controller('harCtrl', function($scope, localStorageService){
 
   var name = 'sample-01';
   var model = localStorageService.get(name);
   if (!model) {
     // set default model for demo purposes
     model = {
-      title: "Sample 01",
+      title: "HTTP Archive Analysis",
       structure: "4-8",
       rows: [{
         columns: [{

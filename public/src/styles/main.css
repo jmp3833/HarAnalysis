@@ -73,3 +73,23 @@ pre.edit {
   filter: FlipH;
   -ms-filter: "FlipH";
 }
+
+.testNav {
+    background-color: #0082C3;
+    border-color: #0082C3;
+    color: #FFFFFF;
+}
+
+.navbar .nav > li > a {
+    color: #FFFFFF;
+}
+
+.navbar-inverse .navbar-brand {
+    color: #FFFFFF;
+}
+
+.dashboard-container .ng-isolate-scope {
+    background-color: #FFFFFF;
+}
+
+
