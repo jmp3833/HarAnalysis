@@ -37,8 +37,23 @@ angular.module('sample.widgets.markdown', ['adf.provider', 'btford.markdown'])
           reload: false
         }
       });
-  }).controller('markdownCtrl', function($scope, config){
-
-$scope.config = config;
-  });
-
+  }).factory('ReadmeService',['$http', function($http){
+        return {
+            getReadme: function() {
+                return $http.post('http://localhost:3000/api/readme', {"file": "README.md"}).
+                    success(function (data) {
+                        return data;
+                    }).
+                    error(function () {
+                        return "error";
+                    });
+            }
+        }
+    }])
+    .controller('markdownCtrl', function($scope, config, ReadmeService){
+        var readmeContentPromise = ReadmeService.getReadme();
+        readmeContentPromise.then(function(result) {
+            config.content = result.data;
+        });
+        $scope.config = config;
+});
