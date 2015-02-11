@@ -1,6 +1,8 @@
 var express    = require('express');
 var app        = express();
 var bodyParser = require('body-parser');
+var fs = require('fs');
+var fileService = require('src/services/file-service');
 
 app.use(bodyParser());
 app.use(function(req, res, next) {
@@ -21,9 +23,7 @@ router.use(function(req, res, next) {
 });
 
 app.post('/api/readme', function (req, res){
-    console.log(req.body);
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    res.send('Got a POST request');
+    fileService.getReadme();
 })
 
 app.listen(port);

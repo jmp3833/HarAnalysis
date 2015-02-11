@@ -37,21 +37,7 @@ angular.module('sample.widgets.markdown', ['adf.provider', 'btford.markdown'])
           reload: false
         }
       });
-  }).controller('markdownCtrl', function($scope, config, $http){
-    if (!config.content){
-      config.content = '';
-    }
-
-    // Simple POST request example (passing data) :
-    $http.post('http://localhost:3000/api/readme', {"file": config.content}).
-    success(function(data, status, headers, config) {
-        // this callback will be called asynchronously
-        // when the response is available
-    }).
-    error(function(data, status, headers, config) {
-        // called asynchronously if an error occurs
-        // or server returns response with an error status.
-    });
+  }).controller('markdownCtrl', function($scope, config){
 
 $scope.config = config;
   });

@@ -23,78 +23,81 @@
  */
 'use strict';
 
-angular.module('sample-01', ['adf', 'LocalStorageModule'])
-.controller('harCtrl', function($scope, localStorageService){
-
+angular.module('sample-01', ['adf', 'LocalStorageModule', 'sample'])
+.controller('harCtrl', function($scope, localStorageService, ReadmeService){
   var name = 'sample-01';
   var model = localStorageService.get(name);
-  if (!model) {
-    // set default model for demo purposes
-    model = {
-      title: "HTTP Archive Analysis",
-      structure: "4-8",
-      rows: [{
-        columns: [{
-          styleClass: "col-md-4",
-          widgets: [{
-            type: "linklist",
-            config: {
-              links: [{
-                title: "SCM-Manager",
-                href: "http://www.scm-manager.org"
-              }, {
-                title: "Github",
-                href: "https://github.com"
-              }, {
-                title: "Bitbucket",
-                href: "https://bitbucket.org"
-              }, {
-                title: "Stackoverflow",
-                href: "http://stackoverflow.com"
+  var readmeContent;
+  var readmeContentPromise = ReadmeService.getReadme();
+  readmeContentPromise.then(function(result){
+      readmeContent = result.data;
+      if (!model) {
+          // set default model for demo purposes
+          model = {
+              title: "HTTP Archive Analysis",
+              structure: "4-8",
+              rows: [{
+                  columns: [{
+                      styleClass: "col-md-4",
+                      widgets: [{
+                          type: "linklist",
+                          config: {
+                              links: [{
+                                  title: "SCM-Manager",
+                                  href: "http://www.scm-manager.org"
+                              }, {
+                                  title: "Github",
+                                  href: "https://github.com"
+                              }, {
+                                  title: "Bitbucket",
+                                  href: "https://bitbucket.org"
+                              }, {
+                                  title: "Stackoverflow",
+                                  href: "http://stackoverflow.com"
+                              }]
+                          },
+                          title: "Links"
+                      }, {
+                          type: "weather",
+                          config: {
+                              location: "Hildesheim"
+                          },
+                          title: "Weather Hildesheim"
+                      }, {
+                          type: "weather",
+                          config: {
+                              location: "Edinburgh"
+                          },
+                          title: "Weather"
+                      }, {
+                          type: "weather",
+                          config: {
+                              location: "Dublin,IE"
+                          },
+                          title: "Weather"
+                      }]
+                  }, {
+                      styleClass: "col-md-8",
+                      widgets: [{
+                          type: "randommsg",
+                          config: {},
+                          title: "Douglas Adams"
+                      }, {
+                          type: "markdown",
+                          config: {
+                              content: readmeContent
+                          },
+                          title: "Markdown"
+                      }]
+                  }]
               }]
-            },
-            title: "Links"
-          }, {
-            type: "weather",
-            config: {
-              location: "Hildesheim"
-            },
-            title: "Weather Hildesheim"
-          }, {
-            type: "weather",
-            config: {
-              location: "Edinburgh"
-            },
-            title: "Weather"
-          }, {
-            type: "weather",
-            config: {
-              location: "Dublin,IE"
-            },
-            title: "Weather"
-          }]
-        }, {
-          styleClass: "col-md-8",
-          widgets: [{
-            type: "randommsg",
-            config: {},
-            title: "Douglas Adams"
-          }, {
-            type: "markdown",
-            config: {
-              content: "../../../../README.md"
-            },
-            title: "Markdown"
-          }]
-        }]
-      }]
-    };
-  }
-  $scope.name = name;
-  $scope.model = model;
-  $scope.collapsible = false;
-
-  $scope.$on('adfDashboardChanged', function (event, name, model) {
-    localStorageService.set(name, model);
-  });
+          };
+      }
+      $scope.name = name;
+      $scope.model = model;
+      $scope.collapsible = false;
+      $scope.$on('adfDashboardChanged', function (event, name, model) {
+          localStorageService.set(name, model);
+      });
+  })
 });

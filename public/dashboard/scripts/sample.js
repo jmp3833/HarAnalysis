@@ -55,6 +55,20 @@ angular.module('sample', [
   });
 
 })
+.factory('ReadmeService',['$http', function($http){
+    return {
+        getReadme: function() {
+            return $http.post('http://localhost:3000/api/readme', {"file": "README.md"}).
+                success(function (data) {
+                    return data;
+                }).
+                error(function () {
+                    return "error";
+                });
+        }
+    }
+}])
+
 .controller('navigationCtrl', function($scope, $location){
 
   $scope.navCollapsed = true;
