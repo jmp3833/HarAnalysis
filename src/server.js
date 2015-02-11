@@ -1,10 +1,13 @@
-// server.js
-
 var express    = require('express');
 var app        = express();
 var bodyParser = require('body-parser');
 
 app.use(bodyParser());
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+});
 
 var port = process.env.PORT || 3000;
 
@@ -17,14 +20,9 @@ router.use(function(req, res, next) {
     next();
 });
 
-// respond with "Hello World!" on the homepage
-app.get('/', function (req, res) {
-    res.send('Hello World!');
-})
-
-// accept POST request on the homepage
 app.post('/api/readme', function (req, res){
     console.log(req.body);
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     res.send('Got a POST request');
 })
 

@@ -43,7 +43,7 @@ angular.module('sample.widgets.markdown', ['adf.provider', 'btford.markdown'])
     }
 
     // Simple POST request example (passing data) :
-    $http.post('http://127.0.0.1:3000/api/readme', JSON.stringify("Hello world!")).
+    $http.post('http://localhost:3000/api/readme', {"file": config.content}).
     success(function(data, status, headers, config) {
         // this callback will be called asynchronously
         // when the response is available
