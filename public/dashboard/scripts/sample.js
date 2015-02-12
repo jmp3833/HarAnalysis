@@ -27,7 +27,7 @@ angular.module('sample', [
   'adf', 'sample.widgets.news', 'sample.widgets.randommsg',
   'sample.widgets.weather', 'sample.widgets.markdown',
   'sample.widgets.linklist', 'sample.widgets.github',
-  'sample.widgets.version', 'LocalStorageModule',
+  'sample.widgets.version', 'LocalStorageModule', 'sample.widgets.har-analysis',
   'structures', 'sample-01', 'sample-02', 'sample-03',
   'sample-04', 'ngRoute'
 ])

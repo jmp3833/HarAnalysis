@@ -78,9 +78,7 @@ angular.module('sample-01', ['adf', 'LocalStorageModule'])
                       config: {},
                       title: "Douglas Adams"
                   }, {
-                      type: "markdown",
-                      config:{},
-                      title: "Markdown"
+                      type: "har-analysis"
                   }]
               }]
           }]
