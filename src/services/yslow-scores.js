@@ -122,28 +122,62 @@ var getYslowResponse = function (filename, doneCallback){
 }
 
 /**
- *
+ * Collect report information from YSLOW json and identify principles that could
+ * be improved. information about each file is then returned as an object.
  * @param jsonOutput - the JSON results produced for a harfile by Yslow
  * @param filename - name of the harfile being processed
+ * @param scoreThreshold - limit of how low a property or file can score to pass as 'good'
  */
-function evaluateHar(jsonOutput, filename){
-    //TODO Allow threshold to be specified in API call.
-    var ratingThreshold = 70;
+function evaluateHar(jsonOutput, filename, scoreThreshold){
+    var harResults = {};
     var harRating = jsonOutput.o;
-    if (harRating < ratingThreshold){
-        console.log("HAR file below score threshold!!: " + filename + "\nCategories below score threshold:");
-        var scoreBreakdown = jsonOutput.g
-        Object.keys(scoreBreakdown).forEach(function(currentVal, index, arr){
-            var individualScore = scoreBreakdown[currentVal].score;
-            if (individualScore != undefined) {
-                if(individualScore < ratingThreshold){
-                    console.log(currentVal);
-                    console.log("More information can be found here:\n" + "https://github.com/checkmyws/yslow-rules/blob/master/content/en/" + currentVal + ".md");
-                }
+    var scoreBreakdown = jsonOutput.g;
+    var failingProperties = []
+
+    harResults.filename = filename
+    harResults.score = harRating;
+
+    harRating < scoreThreshold ? harResults.passing = false : harResults.passing = true;
+
+    Object.keys(scoreBreakdown).forEach(function(currentVal, arr){
+        var individualScore = scoreBreakdown[currentVal].score;
+        //URL where more info about the yslow rule can be found.
+        var helpDocs = "https://github.com/checkmyws/yslow-rules/blob/master/content/en/" + currentVal + ".md";
+        if (individualScore != undefined) {
+            if(individualScore < scoreThreshold){
+                failingProperties.push({principle : currentVal, helpLink : helpDocs });
             }
-        });
-        console.log("\n");
+        }
+    });
+
+    //Assign all yslow principles that are scored below the rating threshold.
+    harResults["failingPrinciples"] = failingProperties;
+
+    return harResults;
+}
+
+/**
+ * Generate a report object containing total score, mean score,
+ * scores of individual HAR files in the test, and
+ * principles that are below the score threshold.
+ * @param results
+ */
+function getTestReport(results, scoreThreshold){
+    //Set a default score in case none is provided
+    var report = {};
+    var fileReports = [];
+    if(scoreThreshold == undefined){scoreThreshold = 70}
+    var scores = getScoreStats(results);
+    scores.averageScore < scoreThreshold ? report.passing = false : report.passing = true;
+
+    for(var fileName in results){
+        fileReports.push(evaluateHar(results[fileName],fileName, scoreThreshold));
     }
+
+    report.scores = scores;
+    report.files = fileReports;
+
+    return report;
 }
 
 /**
@@ -162,14 +196,11 @@ function getScoreStats(results){
     return {"totalScore" : totalScore, "averageScore" : totalScore / numEle}
 }
 
-function getTestReport(results){
-    
-}
-
 module.exports = {
     evaluateHARSet : evaluateHARSet,
     evaluateHar : evaluateHar,
     getHarfiles : getHarfiles,
     getScoreStats : getScoreStats,
+    getTestReport : getTestReport,
     processAllHarfiles : processAllHarfiles
 }

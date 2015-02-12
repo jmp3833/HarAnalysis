@@ -76,5 +76,18 @@ app.get('/api/yslow-scores', function(req, res) {
     });
 });
 
+/**
+ * Generate test report for all HAR files in a specified directory.
+ */
+app.get('/api/get-report', function(req, res) {
+    var url_parts = url.parse(req.url, true);
+    var queryString = url_parts.query.dir;
+    yslowService.processAllHarfiles(queryString, function(err, data){
+        if(err){throw err}
+        var results = yslowService.getTestReport(data);
+        res.end(JSON.stringify(results));
+    });
+});
+
 app.listen(port);
 console.log('Server started on port ' + port);
