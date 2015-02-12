@@ -1,4 +1,4 @@
-/*
+/**
 Business logic to perform Yslow analysis on harfiles and sets
 of harfiles for interesting reports and analysis
  */
@@ -98,13 +98,19 @@ function evaluateHARSet(filesList, cb){
     });
 }
 
+/**
+ * Generate a full response from YSlow in JSON format and return on completion.
+ * @param filename - name of .har file to analyze with yslow
+ * @param doneCallback - callback function to call on successful processing of harfile
+ * @return callback function with JSON content if file was successfully processed,
+ * and the value -1 otherwise for filtering later on.
+ */
 var getYslowResponse = function (filename, doneCallback){
     fs.readFile(filename, function (err, data){
         var har = JSON.parse(data);
         try{
             var res = YSLOW.harImporter.run(doc, har, 'ydefault');
             var content =  YSLOW.util.getResults(res.context, 'all');
-            evaluateHar(content,filename);
         }
         catch(TypeError){
             console.log("Bad Harfile: " + filename);
@@ -115,6 +121,11 @@ var getYslowResponse = function (filename, doneCallback){
     });
 }
 
+/**
+ *
+ * @param jsonOutput - the JSON results produced for a harfile by Yslow
+ * @param filename - name of the harfile being processed
+ */
 function evaluateHar(jsonOutput, filename){
     //TODO Allow threshold to be specified in API call.
     var ratingThreshold = 70;
@@ -135,9 +146,30 @@ function evaluateHar(jsonOutput, filename){
     }
 }
 
+/**
+ * Generate total and mean scores of all harfiles in a directory
+ * and return as an object.
+ * @param results
+ */
+function getScoreStats(results){
+    var totalScore = 0;
+    var numEle = 0;
+
+    for(var key in results){
+        totalScore += results[key].o;
+        numEle++;
+    }
+    return {"totalScore" : totalScore, "averageScore" : totalScore / numEle}
+}
+
+function getTestReport(results){
+    
+}
+
 module.exports = {
     evaluateHARSet : evaluateHARSet,
     evaluateHar : evaluateHar,
     getHarfiles : getHarfiles,
+    getScoreStats : getScoreStats,
     processAllHarfiles : processAllHarfiles
 }

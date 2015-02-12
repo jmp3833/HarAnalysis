@@ -62,5 +62,19 @@ app.get('/api/yslow-results', function(req, res) {
     });
 });
 
+/**
+ * return an object containing the total calculated score of each harfile in a specified
+ * directory, and the mean score for the entire set.
+*/
+app.get('/api/yslow-scores', function(req, res) {
+    var url_parts = url.parse(req.url, true);
+    var queryString = url_parts.query.dir;
+    yslowService.processAllHarfiles(queryString, function(err, data){
+        if(err){throw err}
+        var scores = yslowService.getScoreStats(data);
+        res.end(JSON.stringify(scores));
+    });
+});
+
 app.listen(port);
 console.log('Server started on port ' + port);
