@@ -23,9 +23,6 @@ var path = require('path');
  * @param callback - callback to pass data and errors to the API route layer for handling.
  */
 function processAllHarfiles(rootDir, callback){
-    //In case of incorrect or no query parameters.
-    if(rootDir == undefined){rootDir = './harfiles'}
-
     getHarfiles(rootDir, function(err, data) {
         //Throw any filesystem errors here.
         if(err){throw err}
@@ -46,6 +43,9 @@ function processAllHarfiles(rootDir, callback){
  * @param cb - callback function to process the returned list of files.
  */
 function getHarfiles(dir, cb){
+    //In case of incorrect or no query parameters.
+    if(dir == undefined){dir = './harfiles'}
+
     var walk = function(dir, done) {
         var results = [];
         fs.readdir(dir, function(err, list) {

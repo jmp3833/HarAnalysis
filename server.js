@@ -35,10 +35,15 @@ app.post('/api/readme', function (req, res){
 
 /**
  * Grab all har files in a recursive directory tree beginning with the
- * /harfiles base dir.
+ * specified directory, or the ./harfiles dir by default if no
+ * 'dir' element is provided in the request URL.
  */
 app.get('/api/get-harfile-set', function (req, res){
-    yslowService.getHarfiles(function(data){
+    var url_parts = url.parse(req.url, true);
+    var queryString = url_parts.query.dir;
+
+    yslowService.getHarfiles(queryString, function(err, data){
+        if(err){throw err}
         res.end(JSON.stringify(data));
     });
 });
