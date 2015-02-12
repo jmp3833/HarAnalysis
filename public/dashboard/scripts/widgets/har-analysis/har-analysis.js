@@ -23,7 +23,7 @@ angular.module('sample.widgets.har-analysis', ['adf.provider'])
   }).factory('HarListService',['$http', function($http){
         return {
             getHarList: function() {
-                return $http.get('http://localhost:3000/api/getHarFileSet').
+                return $http.get('http://localhost:3000/api/get-harfile-set').
                     success(function (data) {
                         return data;
                     }).
