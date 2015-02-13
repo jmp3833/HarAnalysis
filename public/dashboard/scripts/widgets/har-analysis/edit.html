@@ -1,6 +1,4 @@
 <div class="har-analysis-edit" ng-scope="harListEditCtrl">
     <label for="testSelector">Test to run</label>
-        <select id="testSelector" ng-model="config.test">
-            <option ng-repeat="test in testNames.data" value="{{ test }}">{{ test }}</option>
-        </select>
+    <select ng-change="reload()" ng-model="config.test" ng-options="test as test for test in testNames.data" id="testSelector"></select>
 </div>

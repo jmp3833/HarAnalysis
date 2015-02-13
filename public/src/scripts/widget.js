@@ -114,10 +114,10 @@ angular.module('adf')
             editScope.$destroy();
 
             var widget = $scope.widget;
-            if (widget.edit && widget.edit.reload){
-              // reload content after edit dialog is closed
-              $scope.$broadcast('widgetConfigChanged');
-            }
+
+           // reload content after edit dialog is closed
+           $scope.$broadcast('widgetConfigChanged');
+
           };
         };
       } else {

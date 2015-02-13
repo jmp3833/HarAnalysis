@@ -24,9 +24,18 @@
         </div>
         <div id="collapseOne" class="panel-collapse collapse in">
             <div class="panel-body">
-                <select ng-model="selectedFile.filename">
-                    <option ng-repeat="file in data.data.files" value="{{file.filename}}">{{file.filename}}</option>
-                </select>
+                <select ng-model="selectedFile" ng-options="file as file.filename for file in data.data.files"></select>
+                <br><br><b>File:</b>{{selectedFile.filename}}<br>
+                <b>Status:</b> {{selectedFile.passing}}<br>
+                <b>Score:</b> {{selectedFile.score}}<hr>
+
+                <p><b>Failing Principles:</b></p>
+                <ul ng-repeat="principle in selectedFile.failingPrinciples">
+                    <li>
+                        <b>{{principle.principle}}</b>
+                        <p>More info: <a href="{{principle.helpLink}}"> {{principle.helpLink}}</a></p>
+                    </li>
+                </ul>
             </div>
         </div>
     </div>
