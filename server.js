@@ -30,6 +30,7 @@ var router = express.Router();
 app.post('/api/readme', function (req, res){
     var filename = __dirname.toString() + '/' +  req.body.file;
     var fileContents = fileService.getReadme(filename);
+    console.log("Request completed: " + req.originalUrl);
     res.end(fileContents);
 })
 
@@ -44,6 +45,7 @@ app.get('/api/get-harfile-set', function (req, res){
 
     yslowService.getHarfiles(queryString, function(err, data){
         if(err){throw err}
+        console.log("Request completed: " + req.originalUrl);
         res.end(JSON.stringify(data));
     });
 });
@@ -58,6 +60,7 @@ app.get('/api/yslow-results', function(req, res) {
     var queryString = url_parts.query.dir;
     yslowService.processAllHarfiles(queryString, function(err, data){
         if(err){throw err}
+        console.log("Request completed: " + req.originalUrl);
         res.end(JSON.stringify(data));
     });
 });
@@ -72,6 +75,7 @@ app.get('/api/yslow-scores', function(req, res) {
     yslowService.processAllHarfiles(queryString, function(err, data){
         if(err){throw err}
         var scores = yslowService.getScoreStats(data);
+        console.log("Request completed: " + req.originalUrl);
         res.end(JSON.stringify(scores));
     });
 });
@@ -85,9 +89,20 @@ app.get('/api/get-report', function(req, res) {
     yslowService.processAllHarfiles(queryString, function(err, data){
         if(err){throw err}
         var results = yslowService.getTestReport(data);
+        console.log("Request completed: " + req.originalUrl);
         res.end(JSON.stringify(results));
     });
 });
 
+/**
+ * Return a list of all tests (subdirectories of ./harfiles )
+ * available for users to select on the UI
+ */
+app.get('/api/get-all-tests', function(req, res) {
+    yslowService.getTests(function(err,testList){
+        if(err){throw err}
+        res.end(JSON.stringify(testList));
+    });
+});
 app.listen(port);
 console.log('Server started on port ' + port);

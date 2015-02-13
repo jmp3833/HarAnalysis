@@ -44,7 +44,7 @@ function processAllHarfiles(rootDir, callback){
  */
 function getHarfiles(dir, cb){
     //In case of incorrect or no query parameters.
-    if(dir == undefined){dir = './harfiles'}
+    if(dir == undefined || dir == 'undefined'){dir = './harfiles'}
 
     var walk = function(dir, done) {
         var results = [];
@@ -196,11 +196,21 @@ function getScoreStats(results){
     return {"totalScore" : totalScore, "averageScore" : totalScore / numEle}
 }
 
+/**
+ * Return names of all tests(subdirectories) available in the harfiles directory,
+ */
+function getTests(returnCallback){
+    fs.readdir('./harfiles', function(err, list) {
+        returnCallback(err, list);
+    });
+}
+
 module.exports = {
     evaluateHARSet : evaluateHARSet,
     evaluateHar : evaluateHar,
     getHarfiles : getHarfiles,
     getScoreStats : getScoreStats,
     getTestReport : getTestReport,
-    processAllHarfiles : processAllHarfiles
+    processAllHarfiles : processAllHarfiles,
+    getTests: getTests
 }

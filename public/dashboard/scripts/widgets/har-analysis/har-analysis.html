@@ -1,5 +1,33 @@
 <div class="har-analysis" ng-scope="harListCtrl">
-    <div ng-repeat="file in config.files">
-        <p>{{file}}</p>
+    <div ng-if="data.data.passing">
+        <h2>Test '{{config.test}}' passed!</h2>
+    </div>
+    <div ng-if="!data.data.passing">
+        <h2>Test '{{config.test}}' failed!</h2>
+    </div>
+    <!-- If no test was specified, run all tests in the dir.-->
+    <p> Select new tests to run from the config section of this widget.</p>
+    <p ng-if="config.test == ''">Note: all tests were run since no test was specified. Choose a specific test in widget settings.</p>
+
+    <hr>
+    <h5>Average score of HTTP Archive files: {{data.data.scores.averageScore}}</h5><br>
+
+    <div class="panel panel-default" id="panel3">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse" data-target="#collapseOne"
+                   href="#collapseOne">
+                    Files analyzed: {{data.data.files.length}}
+                </a>
+            </h4>
+
+        </div>
+        <div id="collapseOne" class="panel-collapse collapse in">
+            <div class="panel-body">
+                <select ng-model="selectedFile.filename">
+                    <option ng-repeat="file in data.data.files" value="{{file.filename}}">{{file.filename}}</option>
+                </select>
+            </div>
+        </div>
     </div>
 </div>
