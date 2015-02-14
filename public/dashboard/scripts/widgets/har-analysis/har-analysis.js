@@ -59,6 +59,57 @@ angular.module('sample.widgets.har-analysis', ['adf.provider'])
         $scope.data = data;
         $scope.directory = config.test;
         $scope.selectedFile = data.data.files[0];
+
+        $scope.chartConfig = {
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: 'HTTP Archive File Scores'
+            },
+            xAxis: {
+                categories: [
+                    '0-10',
+                    '10-20',
+                    '20-30',
+                    '30-40',
+                    '40-50',
+                    '50-60',
+                    '60-70',
+                    '70-80',
+                    '80-90',
+                    '90-100',
+                ],title: {
+                    text: 'Score (0-100)'
+                }
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: 'Number of HAR Files'
+                }
+            },
+            tooltip: {
+                headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                '<td style="padding:0"><b>{point.y:.1f} mm</b></td></tr>',
+                footerFormat: '</table>',
+                shared: true,
+                useHTML: true
+            },
+            plotOptions: {
+                column: {
+                    pointPadding: 0.2,
+                    borderWidth: 0
+                }
+            },
+            series: [{
+                type: 'column',
+                name: 'Number of HAR files',
+                data: data.data.chartData
+
+            }]
+        };
   }).controller('harListEditCtrl', function($scope, testNames, config){
         $scope.testNames = testNames;
   });

@@ -104,5 +104,6 @@ app.get('/api/get-all-tests', function(req, res) {
         res.end(JSON.stringify(testList));
     });
 });
+
 app.listen(port);
 console.log('Server started on port ' + port);

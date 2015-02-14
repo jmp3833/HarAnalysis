@@ -9,6 +9,8 @@
     <p> Select new tests to run from the config section of this widget.</p>
     <p ng-if="config.test == ''">Note: all tests were run since no test was specified. Choose a specific test in widget settings.</p>
 
+    <highchart id="har_score_distribution" config="chartConfig"></highchart>
+
     <hr>
     <h5>Average score of HTTP Archive files: {{data.data.scores.averageScore}}</h5><br>
 

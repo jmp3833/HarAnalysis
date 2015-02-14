@@ -163,6 +163,9 @@ function evaluateHar(jsonOutput, filename, scoreThreshold){
  * @param results
  */
 function getTestReport(results, scoreThreshold){
+    //get set of data to populate chart
+    var chartData = generateChartData(results);
+
     //Set a default score in case none is provided
     var report = {};
     var fileReports = [];
@@ -176,6 +179,7 @@ function getTestReport(results, scoreThreshold){
 
     report.scores = scores;
     report.files = fileReports;
+    report.chartData = chartData;
 
     return report;
 }
@@ -205,6 +209,29 @@ function getTests(returnCallback){
     });
 }
 
+/**
+ * Create an array of values resembling the number of HTTP archive files
+ * that have received scores in a given range. Array is split into 10 segments
+ * ranging in scores from [0-10,10-20...90-100]
+ */
+function generateChartData(results){
+    var scoreArray = [];
+    var resultsArray = [0,0,0,0,0,0,0,0,0,0];
+
+    for(var key in results){
+        scoreArray.push(results[key].o);
+    }
+
+    scoreArray.sort();
+
+    for(var i = 0; i < scoreArray.length; i++){
+        var index = (scoreArray[i] / 10);
+        resultsArray[Math.floor(index)] += 1;
+    }
+
+    return resultsArray;
+}
+
 module.exports = {
     evaluateHARSet : evaluateHARSet,
     evaluateHar : evaluateHar,
@@ -212,5 +239,6 @@ module.exports = {
     getScoreStats : getScoreStats,
     getTestReport : getTestReport,
     processAllHarfiles : processAllHarfiles,
-    getTests: getTests
+    getTests: getTests,
+    generateChartData : generateChartData
 }
