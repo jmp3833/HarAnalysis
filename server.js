@@ -87,9 +87,11 @@ app.get('/api/yslow-scores', function(req, res) {
 app.get('/api/get-report', function(req, res) {
     var url_parts = url.parse(req.url, true);
     var queryString = url_parts.query.dir;
+    var threshold = url_parts.query.threshold;
+
     yslowService.processAllHarfiles(queryString, function(err, data){
         if(err){throw err}
-        var results = yslowService.getTestReport(data);
+        var results = yslowService.getTestReport(data, threshold);
         logger.info("Request completed: " + req.originalUrl);
         res.end(JSON.stringify(results));
     });

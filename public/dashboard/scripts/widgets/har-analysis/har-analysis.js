@@ -17,7 +17,7 @@ angular.module('sample.widgets.har-analysis', ['adf.provider'])
         resolve: {
             data: function(HarListService, config){
                 if(config.test){
-                    return HarListService.getTestReport(config.test);
+                    return HarListService.getTestReport(config.test, config.threshold);
                 }
             }
         },
@@ -34,9 +34,10 @@ angular.module('sample.widgets.har-analysis', ['adf.provider'])
       });
   }).factory('HarListService',['$http', function($http){
         return {
-            getTestReport: function(test){
+            getTestReport: function(test, threshold){
                 if(test == undefined){test = ''}
-                return $http.get('http://localhost:3000/api/get-report?dir=./harfiles/' + test).
+                if(threshold == undefined){threshold = '60'}
+                return $http.get('http://localhost:3000/api/get-report?dir=./harfiles/' + test + '&threshold=' + threshold).
                     success(function (data) {
                         return data;
                     }).
